@@ -12,21 +12,21 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.example.healthcare.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_leaderboard"
+        android:name="com.example.healthcare.ui.leaderboard.LeaderboardFragment"
+        android:label="Leaderboard"
+        tools:layout="@layout/fragment_leaderboard" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="com.example.healthcare.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_dietplan"
+        android:name="com.example.healthcare.ui.dietplan.DietplanFragment"
+        android:label="Dietplan"
+        tools:layout="@layout/fragment_dietplan" />
 
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.example.healthcare.ui.profile.ProfileFragment"
         android:label="Profile"
-        tools:layout="@layout/profile_fragment" />
+        tools:layout="@layout/fragment_profile" />
 
 </navigation>

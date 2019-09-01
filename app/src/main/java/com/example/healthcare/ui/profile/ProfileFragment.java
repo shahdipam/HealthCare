@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.healthcare.R;
-import com.example.healthcare.ui.dashboard.DashboardViewModel;
 
 public class ProfileFragment extends Fragment {
 
@@ -29,7 +28,7 @@ public class ProfileFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         profileViewModel =
                 ViewModelProviders.of(this).get(ProfileViewModel.class);
-        View root = inflater.inflate(R.layout.profile_fragment, container, false);
+        View root = inflater.inflate(R.layout.fragment_profile, container, false);
         final TextView textView = root.findViewById(R.id.text_profile);
         profileViewModel.getText().observe(this, new Observer<String>() {
             @Override
