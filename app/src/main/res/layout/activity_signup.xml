@@ -97,11 +97,18 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <EditText
+        android:id="@+id/refCode"
+        android:layout_below="@id/text_input_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nutritionist code"/>
+
     <Button
         android:id="@+id/signupBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_input_password"
+        android:layout_below="@id/refCode"
         android:text="Sign up"
         android:layout_centerInParent="true"
         android:layout_marginTop="30dp"/>

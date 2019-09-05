@@ -16,20 +16,11 @@ import com.example.healthcare.R;
 
 public class DietplanFragment extends Fragment {
 
-    private DietplanViewModel dietplanViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dietplanViewModel =
-                ViewModelProviders.of(this).get(DietplanViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_dietplan, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        dietplanViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 }

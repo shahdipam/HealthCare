@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,10 +26,10 @@ import java.util.HashMap;
 public class Signup extends AppCompatActivity {
 
     private TextInputLayout firstname, lastname, email, password;
+    private EditText refcode;
     private Button signupBtn;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
-    private FirebaseDatabase users;
     private DatabaseReference ref;
     //private DatabaseHelper db;
 
@@ -45,7 +46,7 @@ public class Signup extends AppCompatActivity {
         password = findViewById(R.id.text_input_password);
         signupBtn = (Button) findViewById(R.id.signupBtn);
         progressDialog = new ProgressDialog(this);
-
+        refcode = findViewById(R.id.refCode);
         //db = new DatabaseHelper(this);
 
 
@@ -121,7 +122,7 @@ public class Signup extends AppCompatActivity {
         final String fname = firstname.getEditText().getText().toString().trim();
         final String lname = lastname.getEditText().getText().toString().trim();
         final String pass = password.getEditText().getText().toString().trim();
-        //users = FirebaseDatabase.getInstance();
+        final String nutcode = refcode.getText().toString().trim();
 
         if (!validateEmail() | !validatePassword() | !validateFname() | !validateLname()) {
             return;
@@ -145,6 +146,7 @@ public class Signup extends AppCompatActivity {
                         hashMap.put("firstname", fname);
                         hashMap.put("lastname", lname);
                         hashMap.put("email", mail);
+                        hashMap.put("Nut_code",nutcode);
 
                         ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
