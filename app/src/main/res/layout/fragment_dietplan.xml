@@ -8,14 +8,16 @@
         android:id="@+id/height"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Height in cm"/>
+        android:hint="Height in cm"
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/weight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/height"
-        android:hint="Weight in kg"/>
+        android:hint="Weight in kg"
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/age"
@@ -23,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/weight"
         android:hint="Age in years"
+        android:inputType="number"
         />
 
 
