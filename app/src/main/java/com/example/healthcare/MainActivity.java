@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.healthcare.nutritionist.NutritionistLogin;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -22,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
   public class MainActivity extends AppCompatActivity {
 
       private TextInputLayout email, password;
-      private TextView redirectToSignup;
+      private TextView redirectToSignup, nutritionist;
       private Button loginBtn;
       private FirebaseAuth mAuth;
 
@@ -52,6 +53,7 @@ import com.google.firebase.auth.FirebaseAuth;
           password = findViewById(R.id.text_input_password);
           loginBtn = (Button) findViewById(R.id.loginBtn);
           redirectToSignup = findViewById(R.id.redirect);
+          nutritionist = findViewById(R.id.redirectToNutritionist);
 
           progressDialog = new ProgressDialog(this);
 
@@ -66,6 +68,13 @@ import com.google.firebase.auth.FirebaseAuth;
               public void onClick(View v) {
                   startActivity(new Intent(MainActivity.this, Signup.class));
 
+              }
+          });
+
+          nutritionist.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  startActivity(new Intent(MainActivity.this, NutritionistLogin.class));
               }
           });
       }

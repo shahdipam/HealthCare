@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".nutritionist.NutritionistDashboard"></activity>
+        <activity android:name=".nutritionist.NutritionistLogin" />
         <activity
             android:name=".Dashboard"
-            android:label="@string/title_activity_dashboard"></activity>
+            android:label="@string/title_activity_dashboard" />
         <activity android:name=".Signup" />
         <activity android:name=".MainActivity">
             <intent-filter>
