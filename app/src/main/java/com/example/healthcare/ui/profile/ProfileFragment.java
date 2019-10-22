@@ -32,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 public class ProfileFragment extends Fragment {
 
     private ProfileViewModel profileViewModel;
-    private EditText name, email, height, weight, age;
+    private EditText name, email, height, weight, age, nut;
     private ImageView edit;
     private Button save;
     private TextView bmi, bmistat;
@@ -53,6 +53,7 @@ public class ProfileFragment extends Fragment {
         age = v.findViewById(R.id.age);
         edit = v.findViewById(R.id.editInfo);
         save = v.findViewById(R.id.save);
+        nut = v.findViewById(R.id.nut);
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
@@ -102,6 +103,7 @@ public class ProfileFragment extends Fragment {
                 height.setText(""+(Float.parseFloat(String.valueOf(dataSnapshot.child("height").getValue()))*100));
                 weight.setText(""+dataSnapshot.child("weight").getValue());
                 age.setText(""+dataSnapshot.child("age").getValue());
+                nut.setText(""+dataSnapshot.child("Nut_code").getValue());
             }
 
             @Override

@@ -9,7 +9,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
-    <TextView
+
+        <TextView
         android:id="@+id/steptitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

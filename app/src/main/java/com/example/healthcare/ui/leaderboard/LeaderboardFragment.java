@@ -1,9 +1,11 @@
 package com.example.healthcare.ui.leaderboard;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,20 +18,13 @@ import com.example.healthcare.R;
 
 public class LeaderboardFragment extends Fragment {
 
-    private LeaderboardViewModel leaderboardViewModel;
+    Button add;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        leaderboardViewModel =
-                ViewModelProviders.of(this).get(LeaderboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_leaderboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        leaderboardViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
-        return root;
+        View v = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        add = v.findViewById(R.id.add);
+
+        return v;
     }
 }
