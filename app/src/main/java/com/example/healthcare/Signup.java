@@ -18,8 +18,11 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
@@ -30,7 +33,7 @@ public class Signup extends AppCompatActivity {
     private Button signupBtn;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
-    private DatabaseReference ref;
+    private DatabaseReference ref, nut;
     //private DatabaseHelper db;
 
 
@@ -58,25 +61,23 @@ public class Signup extends AppCompatActivity {
         });
     }
 
-    private Boolean validateFname(){
+    private Boolean validateFname() {
         String fnameinput = firstname.getEditText().getText().toString().trim();
-        if(fnameinput.isEmpty()) {
+        if (fnameinput.isEmpty()) {
             firstname.setError("Field can't be empty");
             return false;
-        }
-        else {
+        } else {
             firstname.setError(null);
             return true;
         }
     }
 
-    private Boolean validateLname(){
+    private Boolean validateLname() {
         String lnameinput = lastname.getEditText().getText().toString().trim();
-        if(lnameinput.isEmpty()) {
+        if (lnameinput.isEmpty()) {
             lastname.setError("Field can't be empty");
             return false;
-        }
-        else {
+        } else {
             lastname.setError(null);
             return true;
         }
@@ -85,15 +86,13 @@ public class Signup extends AppCompatActivity {
     private Boolean validateEmail() {
         String emailinput = email.getEditText().getText().toString().trim();
 
-        if (emailinput.isEmpty()){
+        if (emailinput.isEmpty()) {
             email.setError("Field can't be empty");
             return false;
-        }
-        else if (!Patterns.EMAIL_ADDRESS.matcher(emailinput).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailinput).matches()) {
             email.setError("Enter a valid email");
             return false;
-        }
-        else{
+        } else {
             email.setError(null);
             return true;
         }
@@ -139,24 +138,53 @@ public class Signup extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
                         FirebaseUser currUser = mAuth.getCurrentUser();
-                        String userid = currUser.getUid();
+                        final String userid = currUser.getUid();
                         ref = FirebaseDatabase.getInstance().getReference("users").child(userid);
 
+                        nut = FirebaseDatabase.getInstance().getReference("admin");
+
+                        nut.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    if (ds.child("nut_code").getValue(String.class).equals(nutcode)) {
+                                        Toast.makeText(Signup.this, "Nutritionist exists " + ds.getKey(), Toast.LENGTH_SHORT).show();
+                                        nut.child(ds.getKey()).child("client").child(userid).setValue(userid);
+                                    }
+                                    else if (nutcode.isEmpty()) {
+                                        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("admin").child("default");
+                                        Toast.makeText(Signup.this, "No nutritionist?", Toast.LENGTH_SHORT).show();
+                                        nut.child("default").child(userid).setValue(userid);
+
+                                    }
+                                    else
+                                        Toast.makeText(Signup.this, "Nutritionist does not exist", Toast.LENGTH_LONG).show();
+                                        return;
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
                         HashMap<String, String> hashMap = new HashMap<>();
                         hashMap.put("firstname", fname);
                         hashMap.put("lastname", lname);
                         hashMap.put("email", mail);
-                        hashMap.put("Nut_code",nutcode);
+                        hashMap.put("Nut_code", nutcode);
+
+                        Toast.makeText(Signup.this, mAuth.getUid(), Toast.LENGTH_SHORT).show();
 
                         ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     progressDialog.dismiss();
+
                                     Toast.makeText(Signup.this, "User Registered", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(Signup.this, Dashboard.class));
                                     finish();
-
                                 }
                             }
                         });
@@ -166,7 +194,9 @@ public class Signup extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
             });
-
         }
+
+
     }
 }
+

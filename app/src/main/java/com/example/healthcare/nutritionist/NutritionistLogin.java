@@ -51,7 +51,7 @@ public class NutritionistLogin extends AppCompatActivity {
             loginBtn = findViewById(R.id.loginBtn);
 
             progressDialog = new ProgressDialog(this);
-
+            progressDialog.setMessage("Logging In");
             loginBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -98,6 +98,7 @@ public class NutritionistLogin extends AppCompatActivity {
             if (!validateEmail() | !validatePassword()) {
                 return;
             } else {
+                progressDialog.show();
                 ref = FirebaseDatabase.getInstance().getReference("admin");
 
                 ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -107,13 +108,14 @@ public class NutritionistLogin extends AppCompatActivity {
                             Admin admin = ds.getValue(Admin.class);
 
                             if (admin.getEmail().equals(mail) && admin.getPassword().equals(pass)){
-                                Toast.makeText(NutritionistLogin.this, "correct", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(NutritionistLogin.this, NutritionistDashboard.class);
                                 intent.putExtra("admin", admin);
+                                progressDialog.hide();
                                 startActivity(intent);
                             }
                             else
-                                Toast.makeText(NutritionistLogin.this, "incorrect", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(NutritionistLogin.this, "Incorrect details", Toast.LENGTH_SHORT).show();
+                            progressDialog.hide();
                         }
                     }
 
