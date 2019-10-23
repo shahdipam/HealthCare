@@ -6,7 +6,7 @@ import java.util.Date;
 public class Steps {
     Date currDate;
     int currSteps;
-    ArrayList<int> step_list;
+    ArrayList<Integer> step_list;
     int nutritionID;
 
     void createChart(){
