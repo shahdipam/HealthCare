@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.healthcare.R;
+import com.example.healthcare.classes.Admin;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
@@ -23,7 +24,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class NutritionistLogin extends AppCompatActivity {
 
@@ -90,14 +94,34 @@ public class NutritionistLogin extends AppCompatActivity {
             final String mail = email.getEditText().getText().toString();
             final String pass = password.getEditText().getText().toString();
 
+
             if (!validateEmail() | !validatePassword()) {
                 return;
             } else {
+                ref = FirebaseDatabase.getInstance().getReference("admin");
 
-                if (mail.equals("a@a.com") && pass.equals("password")){
-                    startActivity(new Intent(NutritionistLogin.this, NutritionistDashboard.class));
-                }
-                else Toast.makeText(this, "Incorrect email or password", Toast.LENGTH_SHORT).show();
+                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+                            Admin admin = ds.getValue(Admin.class);
+
+                            if (admin.getEmail().equals(mail) && admin.getPassword().equals(pass)){
+                                Toast.makeText(NutritionistLogin.this, "correct", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(NutritionistLogin.this, NutritionistDashboard.class);
+                                intent.putExtra("admin", admin);
+                                startActivity(intent);
+                            }
+                            else
+                                Toast.makeText(NutritionistLogin.this, "incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
 
             }

@@ -6,9 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".nutritionist.NutritionistDashboard">
 
-    <TextView
+    <ListView
+        android:id="@+id/clientList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/addDietPlan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HEllo world"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        app:fabSize="auto"
+        android:src="@drawable/ic_person_black_24dp"
+
+        app:pressedTranslationZ="12dp"/>
 
 </RelativeLayout>

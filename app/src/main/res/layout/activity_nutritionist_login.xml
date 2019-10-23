@@ -11,9 +11,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Nutritionist Login"
+        android:textStyle="bold"
+        android:textColor="#0099cc"
         android:textSize="30sp"
         android:layout_marginTop="30sp"
         android:layout_centerHorizontal="true"/>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        app:cardBackgroundColor="#0099CC"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="8dp">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_below="@+id/name"
@@ -49,15 +66,16 @@
             android:inputType="textPassword"/>
 
     </com.google.android.material.textfield.TextInputLayout>
-
-
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_input_password"
         android:text="Login"
+        android:background="#0099cc"
         android:layout_centerInParent="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

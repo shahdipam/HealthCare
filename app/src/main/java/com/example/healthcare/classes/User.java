@@ -9,8 +9,19 @@ public class User {
     int todays_steps;
     User[] friends;
 
+    public User(String name, int age, int bmi) {
+    this.name = name;
+    this.age = age;
+    this.BMI = bmi;
+    }
+
+    public User() {
+
+    }
+
     int cal_BMI(){
 
+        return 2;
     }
 
     void stepIncrementer(){
