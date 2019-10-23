@@ -32,7 +32,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_below="@+id/name"
         android:paddingTop="18dp"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="25dp"
@@ -80,7 +79,6 @@
         android:text="Login"
         android:layout_marginTop="20dp"
         android:background="#0099cc"
-        shadow
         android:layout_centerHorizontal="true" />
 
     <TextView

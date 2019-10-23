@@ -1,5 +1,7 @@
 package com.example.healthcare.ui.dietplan;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,8 +19,11 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.healthcare.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class DietplanFragment extends Fragment {
 
@@ -44,6 +49,22 @@ public class DietplanFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("height")){
+                }
+                else {
+                    openDialog(getContext());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,20 +87,24 @@ public class DietplanFragment extends Fragment {
                     if (bmi>30)
                         bodymassindex.setText(""+bmi+": Obese");
 
-                    height.setEnabled(false);
-                    weight.setEnabled(false);
-                    age.setEnabled(false);
 
-                    ref.child("height").setValue(ht);
-                    ref.child("weight").setValue(wt);
-                    ref.child("age").setValue(AGE);
-                    ref.child("bmi").setValue(bmi);
+//                    ref.child("height").setValue(ht);
+//                    ref.child("weight").setValue(wt);
+//                    ref.child("age").setValue(AGE);
+//                    ref.child("bmi").setValue(bmi);
                 }
 
             }
         });
 
         return root;
+    }
+
+    public void openDialog(Context context){
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dietplan_dialogbox);
+        dialog.setTitle("Enter your details");
+        dialog.show();
     }
 
     private boolean weightEmpty() {

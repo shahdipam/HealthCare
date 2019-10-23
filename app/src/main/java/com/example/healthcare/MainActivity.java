@@ -47,6 +47,8 @@ import com.google.firebase.auth.FirebaseAuth;
           setContentView(R.layout.activity_main);
           FirebaseApp.initializeApp(this);
 
+          getSupportActionBar().hide();
+
           mAuth = FirebaseAuth.getInstance();
 
           email = findViewById(R.id.text_input_email);
