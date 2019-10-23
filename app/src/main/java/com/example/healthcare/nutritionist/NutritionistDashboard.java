@@ -9,13 +9,10 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.example.healthcare.NewDietPlan;
 import com.example.healthcare.R;
 import com.example.healthcare.classes.Admin;
 import com.example.healthcare.classes.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.util.List;
 
 public class NutritionistDashboard extends AppCompatActivity {
 

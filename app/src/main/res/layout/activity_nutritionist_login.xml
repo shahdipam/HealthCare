@@ -16,6 +16,7 @@
         android:textSize="30sp"
         android:layout_marginTop="30sp"
         android:layout_centerHorizontal="true"/>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/card"
         android:layout_width="match_parent"
@@ -72,7 +73,7 @@
         android:id="@+id/loginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/text_input_password"
+        android:layout_below="@id/card"
         android:text="Login"
         android:background="#0099cc"
         android:layout_centerInParent="true"

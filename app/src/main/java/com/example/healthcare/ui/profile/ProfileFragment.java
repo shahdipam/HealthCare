@@ -100,8 +100,13 @@ public class ProfileFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 name.setText(""+dataSnapshot.child("firstname").getValue()+" "+dataSnapshot.child("lastname").getValue());
                 email.setText(""+dataSnapshot.child("email").getValue());
-                height.setText(""+(Float.parseFloat(String.valueOf(dataSnapshot.child("height").getValue()))*100));
+
+                if (dataSnapshot.hasChild("height")) {
+                    height.setText("" + (Float.parseFloat(String.valueOf(dataSnapshot.child("height").getValue())) * 100));
+                }
+                if (dataSnapshot.hasChild("weight"))
                 weight.setText(""+dataSnapshot.child("weight").getValue());
+
                 age.setText(""+dataSnapshot.child("age").getValue());
                 nut.setText(""+dataSnapshot.child("Nut_code").getValue());
             }

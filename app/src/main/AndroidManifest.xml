@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewDietPlan"></activity>
+        <activity android:name=".nutritionist.NewDietPlan"></activity>
         <activity android:name=".nutritionist.Client_Detailed" />
         <activity android:name=".nutritionist.NutritionistDashboard" />
         <activity android:name=".nutritionist.NutritionistLogin" />

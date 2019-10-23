@@ -1,8 +1,10 @@
-package com.example.healthcare;
+package com.example.healthcare.nutritionist;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.healthcare.R;
 
 public class NewDietPlan extends AppCompatActivity {
 
