@@ -1,6 +1,8 @@
 package com.example.healthcare.classes;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     String name;
     int userID, age;
     float height, weight, BMI;
@@ -19,20 +21,20 @@ public class User {
 
     }
 
-    int cal_BMI(){
+    public User(String name, int todays_steps) {
+        this.name = name;
+        this.todays_steps = todays_steps;
+    }
 
-        return 2;
+
+    public float cal_BMI(){
+
+        float bmi = weight/(height*height);
+
+        return bmi;
     }
 
     void stepIncrementer(){
-
-    }
-
-    void resetPassword(){
-
-    }
-
-    void resetSteps() {
 
     }
 

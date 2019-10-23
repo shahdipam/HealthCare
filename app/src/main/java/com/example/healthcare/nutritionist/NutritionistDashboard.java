@@ -33,6 +33,7 @@ public class NutritionistDashboard extends AppCompatActivity {
         adapter = new ClientAdapter(getApplicationContext(), R.layout.client_item);
         listView.setAdapter(adapter);
 
+
         adapter.add(new User("Mr A", 54, 25));
         adapter.add(new User("Mr B", 54, 25));
         adapter.add(new User("Mr C", 34, 25));

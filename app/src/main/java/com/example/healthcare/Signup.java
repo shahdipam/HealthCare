@@ -24,7 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Signup extends AppCompatActivity {
 
@@ -34,6 +36,7 @@ public class Signup extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private DatabaseReference ref, nut;
+    private ArrayList<String> nuts;
     //private DatabaseHelper db;
 
 
@@ -50,6 +53,7 @@ public class Signup extends AppCompatActivity {
         signupBtn = (Button) findViewById(R.id.signupBtn);
         progressDialog = new ProgressDialog(this);
         refcode = findViewById(R.id.refCode);
+        nuts = new ArrayList<String>();
         //db = new DatabaseHelper(this);
 
 
@@ -123,6 +127,7 @@ public class Signup extends AppCompatActivity {
         final String pass = password.getEditText().getText().toString().trim();
         final String nutcode = refcode.getText().toString().trim();
 
+
         if (!validateEmail() | !validatePassword() | !validateFname() | !validateLname()) {
             return;
         } else {
@@ -133,7 +138,6 @@ public class Signup extends AppCompatActivity {
             mAuth.createUserWithEmailAndPassword(mail, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-
 
                     if (task.isSuccessful()) {
 
@@ -147,19 +151,18 @@ public class Signup extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                    if (ds.child("nut_code").getValue(String.class).equals(nutcode)) {
-                                        Toast.makeText(Signup.this, "Nutritionist exists " + ds.getKey(), Toast.LENGTH_SHORT).show();
+                                    if (ds.hasChild("nut_code")){
+                                    nuts.add(ds.child("nut_code").getValue(String.class));
+
+                                   if (nuts.contains(nutcode)){
                                         nut.child(ds.getKey()).child("client").child(userid).setValue(userid);
                                     }
-                                    else if (nutcode.isEmpty()) {
+                                    else {
                                         DatabaseReference ref = FirebaseDatabase.getInstance().getReference("admin").child("default");
-                                        Toast.makeText(Signup.this, "No nutritionist?", Toast.LENGTH_SHORT).show();
                                         nut.child("default").child(userid).setValue(userid);
+                                    }
 
                                     }
-                                    else
-                                        Toast.makeText(Signup.this, "Nutritionist does not exist", Toast.LENGTH_LONG).show();
-                                        return;
                                 }
                             }
 
@@ -173,8 +176,6 @@ public class Signup extends AppCompatActivity {
                         hashMap.put("lastname", lname);
                         hashMap.put("email", mail);
                         hashMap.put("Nut_code", nutcode);
-
-                        Toast.makeText(Signup.this, mAuth.getUid(), Toast.LENGTH_SHORT).show();
 
                         ref.setValue(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override

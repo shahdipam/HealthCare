@@ -45,6 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:15.0.1'
 
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+    implementation 'com.github.vipulasri:timelineview:1.1.2'
 
 }
 apply plugin: 'com.google.gms.google-services'

@@ -31,103 +31,102 @@ import java.util.HashMap;
 
 public class NutritionistLogin extends AppCompatActivity {
 
-        private TextInputLayout email, password;
-        private Button loginBtn;
-        private FirebaseAuth mAuth;
-        private DatabaseReference ref;
-        private ProgressDialog progressDialog;
+    private TextInputLayout email, password;
+    private Button loginBtn;
+    private FirebaseAuth mAuth;
+    private DatabaseReference ref;
+    private ProgressDialog progressDialog;
 
 
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_nutritionist_login);
-            FirebaseApp.initializeApp(this);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_nutritionist_login);
+        FirebaseApp.initializeApp(this);
 
-            mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
-            email = findViewById(R.id.text_input_email);
-            password = findViewById(R.id.text_input_password);
-            loginBtn = findViewById(R.id.loginBtn);
+        email = findViewById(R.id.text_input_email);
+        password = findViewById(R.id.text_input_password);
+        loginBtn = findViewById(R.id.loginBtn);
 
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Logging In");
-            loginBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Logging In");
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                    userLogin();
-                }
-            });
-
-        }
-
-        private Boolean validateEmail() {
-            String emailinput = email.getEditText().getText().toString().trim();
-
-            if (emailinput.isEmpty()) {
-                email.setError("Field can't be empty");
-                return false;
+                userLogin();
             }
-            else if (!Patterns.EMAIL_ADDRESS.matcher(emailinput).matches()) {
-                email.setError("Enter a valid email");
-                return false;
-            }else
-                email.setError(null);
+        });
+
+    }
+
+    private Boolean validateEmail() {
+        String emailinput = email.getEditText().getText().toString().trim();
+
+        if (emailinput.isEmpty()) {
+            email.setError("Field can't be empty");
+            return false;
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailinput).matches()) {
+            email.setError("Enter a valid email");
+            return false;
+        } else
+            email.setError(null);
+        return true;
+    }
+
+    private Boolean validatePassword() {
+        String passwordinput = password.getEditText().getText().toString().trim();
+
+        if (passwordinput.isEmpty()) {
+            password.setError("Field can't be empty");
+            return false;
+        } else {
+            password.setError(null);
             return true;
         }
+    }
 
-        private Boolean validatePassword() {
-            String passwordinput = password.getEditText().getText().toString().trim();
-
-            if (passwordinput.isEmpty()) {
-                password.setError("Field can't be empty");
-                return false;
-            }
-            else {
-                password.setError(null);
-                return true;
-            }
-        }
-
-        public void userLogin() {
-            final String mail = email.getEditText().getText().toString();
-            final String pass = password.getEditText().getText().toString();
+    public void userLogin() {
+        final String mail = email.getEditText().getText().toString();
+        final String pass = password.getEditText().getText().toString();
 
 
-            if (!validateEmail() | !validatePassword()) {
-                return;
-            } else {
-                progressDialog.show();
-                ref = FirebaseDatabase.getInstance().getReference("admin");
+        if (!validateEmail() | !validatePassword()) {
+            return;
+        } else {
+            progressDialog.show();
+            ref = FirebaseDatabase.getInstance().getReference("admin");
 
-                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+            ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        if (ds.hasChild("email")) {
                             Admin admin = ds.getValue(Admin.class);
 
-                            if (admin.getEmail().equals(mail) && admin.getPassword().equals(pass)){
+                            if (admin.getEmail().equals(mail) && admin.getPassword().equals(pass)) {
                                 Intent intent = new Intent(NutritionistLogin.this, NutritionistDashboard.class);
                                 intent.putExtra("admin", admin);
                                 progressDialog.hide();
                                 startActivity(intent);
-                            }
-                            else
+                            } else
                                 Toast.makeText(NutritionistLogin.this, "Incorrect details", Toast.LENGTH_SHORT).show();
                             progressDialog.hide();
                         }
                     }
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
 
-                    }
-                });
+                }
+            });
 
-
-            }
 
         }
+
     }
+}
 
