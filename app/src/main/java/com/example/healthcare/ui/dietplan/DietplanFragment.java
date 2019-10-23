@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.healthcare.R;
+import com.example.healthcare.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,88 +50,10 @@ public class DietplanFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("height")){
-                }
-                else {
-                    openDialog(getContext());
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (ageEmpty() & heightEmpty() & weightEmpty()){
-                    Toast.makeText(getActivity(), "entered", Toast.LENGTH_SHORT).show();
-                    ht = Float.parseFloat(height.getText().toString());
-                    wt = Float.parseFloat(weight.getText().toString());
-                    AGE = Integer.parseInt(age.getText().toString());
-                    ht = ht/100;
-
-                    bmi = wt/(ht*ht);
-
-                    if (bmi<18.5)
-                        bodymassindex.setText(""+bmi+": Underweight");
-                    if (bmi>18.5 & bmi< 24.9)
-                        bodymassindex.setText(""+bmi+": Normal");
-                    if (bmi>25 & bmi<29.9)
-                        bodymassindex.setText(""+bmi+": Overweight");
-                    if (bmi>30)
-                        bodymassindex.setText(""+bmi+": Obese");
-
-
-//                    ref.child("height").setValue(ht);
-//                    ref.child("weight").setValue(wt);
-//                    ref.child("age").setValue(AGE);
-//                    ref.child("bmi").setValue(bmi);
-                }
-
-            }
-        });
 
         return root;
     }
 
-    public void openDialog(Context context){
-        Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dietplan_dialogbox);
-        dialog.setTitle("Enter your details");
-        dialog.show();
-    }
 
-    private boolean weightEmpty() {
-        if (weight.getText().toString().trim().isEmpty()){
-            weight.setError("Empty");
-            return false;
-        }
-        else
-            return true;
-    }
 
-    private boolean heightEmpty() {
-        if (height.getText().toString().trim().isEmpty()){
-            height.setError("Empty");
-            return false;
-        }
-        else
-            return true;
-    }
-
-    private boolean ageEmpty() {
-        if (age.getText().toString().trim().isEmpty()){
-            age.setError("Empty");
-            return false;
-        }
-        else
-            return true;
-    }
 }

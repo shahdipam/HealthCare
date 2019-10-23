@@ -19,9 +19,11 @@ public class User {
 
     }
 
-    int cal_BMI(){
+    public float cal_BMI(){
 
-        return 2;
+        float bmi = weight/(height*height);
+
+        return bmi;
     }
 
     void stepIncrementer(){
