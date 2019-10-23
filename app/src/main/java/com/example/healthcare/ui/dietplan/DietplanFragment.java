@@ -1,6 +1,5 @@
 package com.example.healthcare.ui.dietplan;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,23 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcare.R;
-import com.example.healthcare.classes.User;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class DietplanFragment extends Fragment {
 
@@ -37,11 +34,14 @@ public class DietplanFragment extends Fragment {
     DatabaseReference ref;
     FirebaseAuth mAuth;
 
+    String[] time = {"08:00", "13:00", "16:00", "20:00"};
+    String[] food = {"breakfast", "lunch", "snacks", "dinner"};
+    ListView listView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_dietplan, container, false);
-
         age = root.findViewById(R.id.age);
         weight = root.findViewById(R.id.weight);
         height = root.findViewById(R.id.height);
@@ -50,6 +50,10 @@ public class DietplanFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
+        DietPlanAdapter adapter = new DietPlanAdapter(getActivity(), time, food);
+
+        listView = (ListView)root.findViewById(R.id.list);
+        listView.setAdapter(adapter);
 
         return root;
     }
@@ -57,3 +61,4 @@ public class DietplanFragment extends Fragment {
 
 
 }
+

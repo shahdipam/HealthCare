@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="0dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="10dp"
+        android:layout_centerVertical="true"
+        app:cardCornerRadius="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:padding="5dp"
+            android:id="@+id/time"/>
+    </androidx.cardview.widget.CardView>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="130dp"
+        android:background="#FFFFFF"
+        android:id="@+id/line"
+        />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="0dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardElevation="10dp"
+        android:layout_toRightOf="@+id/line"
+        android:layout_centerVertical="true"
+        app:cardCornerRadius="15dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textSize="20sp"
+            android:padding="5dp"
+            android:id="@+id/desc"/>
+    </androidx.cardview.widget.CardView>
+
+
+
+</RelativeLayout>
