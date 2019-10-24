@@ -50,11 +50,6 @@ public class DietplanFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
-        DietPlanAdapter adapter = new DietPlanAdapter(getActivity(), time, food);
-
-        listView = (ListView)root.findViewById(R.id.list);
-        listView.setAdapter(adapter);
-
         return root;
     }
 
