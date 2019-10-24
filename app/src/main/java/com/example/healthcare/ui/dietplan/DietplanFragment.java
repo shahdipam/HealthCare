@@ -18,19 +18,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.healthcare.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class DietplanFragment extends Fragment {
 
 
-    private EditText age, height, weight;
+    private TextView age, height, weight;
     float ht, wt, bmi;
     int AGE;
     TextView bodymassindex;
-    Button save;
+
     DatabaseReference ref;
     FirebaseAuth mAuth;
 
@@ -45,12 +49,27 @@ public class DietplanFragment extends Fragment {
         age = root.findViewById(R.id.age);
         weight = root.findViewById(R.id.weight);
         height = root.findViewById(R.id.height);
-        save = root.findViewById(R.id.save);
         bodymassindex = root.findViewById(R.id.bmi);
         mAuth = FirebaseAuth.getInstance();
-        ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
 
-        DietPlanAdapter adapter = new DietPlanAdapter(getActivity(), time, food);
+        ref = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                height.setText(dataSnapshot.child("height").getValue(String.class));
+                weight.setText(dataSnapshot.child("weight").getValue(String.class));
+                age.setText(dataSnapshot.child("age").getValue(String.class));
+                String bmi = dataSnapshot.child("bmi").getValue(Double.class).toString();
+                bodymassindex.setText(bmi.substring(0,5));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DietPlanAdapter adapter = new DietPlanAdapter(getContext(), time, food);
 
         listView = (ListView)root.findViewById(R.id.list);
         listView.setAdapter(adapter);

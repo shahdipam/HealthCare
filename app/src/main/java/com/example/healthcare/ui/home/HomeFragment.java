@@ -77,6 +77,13 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
+
+        entries.add(new Entry(0, 400));
+        entries.add(new Entry(1, 10000));
+        entries.add(new Entry(2, 4500));
+        entries.add(new Entry(3, 1470));
+        entries.add(new Entry(3, 500));
+
         steps = root.findViewById(R.id.steps);
         sensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         mAuth = FirebaseAuth.getInstance();
@@ -113,11 +120,10 @@ public class HomeFragment extends Fragment implements SensorEventListener {
 
                     while (i.hasNext()){
                         Map.Entry pair = (Map.Entry) i.next();
-                        int inn=18;
+
                         Long l1  = (Long) pair.getValue();
                         float f1 = l1;
-                        entries.add(new Entry(inn, f1));
-                        inn++;
+                        //entries.add(new Entry(inn, f1));
                         i.remove();
 
                     }
@@ -139,10 +145,9 @@ public class HomeFragment extends Fragment implements SensorEventListener {
         LineDataSet dataSet = new LineDataSet(entries, "Customized values");
         dataSet.setColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         dataSet.setValueTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark));
-
         XAxis xAxis = chart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setGranularity(1f); // minimum axis-step (interval) is 1
+        xAxis.setGranularity(1f);
 
         YAxis yAxisRight = chart.getAxisRight();
         yAxisRight.setEnabled(false);

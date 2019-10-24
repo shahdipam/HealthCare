@@ -3,6 +3,9 @@ package com.example.healthcare.ui.leaderboard;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -44,8 +47,10 @@ public class LeaderboardFragment extends Fragment {
     ListView friendList;
     private FriendAdapter adapter;
     FirebaseAuth mAuth;
-
+    static int no_of_steps;
     List<User> friends;
+    List<String> friendIds = new ArrayList<>();
+    int flag = 0;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +63,7 @@ public class LeaderboardFragment extends Fragment {
         friendList.setAdapter(adapter);
         mAuth = FirebaseAuth.getInstance();
 
+        addFriend();
 
         addFriend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,14 +94,16 @@ public class LeaderboardFragment extends Fragment {
                                     public void onDataChange(DataSnapshot dataSnapshot) {
                                         for (DataSnapshot ds: dataSnapshot.getChildren()){
                                             if (username.equals(ds.child("firstname").getValue(String.class))){
-                                                Toast.makeText(getContext(), "exists", Toast.LENGTH_SHORT).show();
-
+                                                flag = 0;
                                                 ref.child(mAuth.getCurrentUser().getUid()).child("friendList").child(ds.getKey()).setValue(ds.getKey());
-
-
+                                                addFriend();
+                                                break;
                                             }
-                                            else
-                                                Toast.makeText(getActivity(), "doesn't exist", Toast.LENGTH_SHORT).show();
+                                            else flag = 1;
+                                        }
+
+                                        if (flag==1){
+                                            Toast.makeText(getContext(), "Username does not exist", Toast.LENGTH_SHORT).show();
                                         }
                                     }
 
@@ -104,6 +112,7 @@ public class LeaderboardFragment extends Fragment {
 
                                     }
                                 });
+
 
                             }
                         });
@@ -121,10 +130,8 @@ public class LeaderboardFragment extends Fragment {
 
 
         friends = new ArrayList<>();
-        friends.add(new User("Bruce", 1300));
-        friends.add(new User("Wayne", 150));
-        friends.add(new User("Robin", 10));
-        friends.add(new User("Alfred", 2300));
+
+
 
         Collections.sort(friends, new Comparator<User>() {
             @Override
@@ -142,4 +149,52 @@ public class LeaderboardFragment extends Fragment {
 
         return v;
     }
+
+    public void addFriend(){
+        adapter.clear();
+
+        DatabaseReference getfriend = FirebaseDatabase.getInstance().getReference("users").child(mAuth.getCurrentUser().getUid());
+
+        getfriend.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds : dataSnapshot.child("friendList").getChildren()){
+//                friendIds.add();
+//                Toast.makeText(getContext(), String.valueOf(ds.getValue(String.class)), Toast.LENGTH_SHORT).show();
+
+
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users").child(String.valueOf(ds.getValue(String.class)));
+                    reference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User a = dataSnapshot.getValue(User.class);
+                            double step = 1000 + Math.random()*5000;
+                            int istep = (int) step;
+                            User u1 = new User(dataSnapshot.child("firstname").getValue(String.class), istep);
+
+                            adapter.add(u1);
+                            adapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+    }
+
 }

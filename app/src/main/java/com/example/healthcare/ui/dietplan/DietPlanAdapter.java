@@ -15,11 +15,11 @@ import androidx.annotation.Nullable;
 
 public class DietPlanAdapter extends ArrayAdapter<String> {
 
-    Activity context;
+    Context context;
     String[] time;
     String[] food;
 
-    public DietPlanAdapter(@NonNull Activity context, String[] time, String[] food) {
+    public DietPlanAdapter(@NonNull Context context, String[] time, String[] food) {
         super(context, R.layout.dietplan_list_item);
 
         this.context = context;
@@ -31,7 +31,8 @@ public class DietPlanAdapter extends ArrayAdapter<String> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater inflater= context.getLayoutInflater();
+        LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
         View rowView=inflater.inflate(R.layout.dietplan_list_item, null,true);
 
         TextView time = (TextView)rowView.findViewById(R.id.time);
